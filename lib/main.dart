@@ -40,7 +40,6 @@ class _TodoListState extends State<TodoList> {
           return ListTile(
             title: Text(
               tasks[index].task,
-              // Aplicar tachado si la tarea está completada (checked)
               style: TextStyle(
                 decoration:
                     tasks[index].checked ? TextDecoration.lineThrough : null,
@@ -49,7 +48,6 @@ class _TodoListState extends State<TodoList> {
             trailing: Checkbox(
               value: tasks[index].checked,
               onChanged: (bool? value) {
-                // Actualizar el estado de la tarea cuando cambia el checkbox
                 setState(() {
                   tasks[index].checked = value ?? false;
                 });
@@ -67,8 +65,6 @@ class _TodoListState extends State<TodoList> {
       ),
     );
   }
-
-  // Resto del código permanece igual
 
   void _addTask(BuildContext context) {
     TextEditingController taskController = TextEditingController();
@@ -105,7 +101,6 @@ class _TodoListState extends State<TodoList> {
   }
 }
 
-// Definir una clase Task para representar las tareas
 class Task {
   String task;
   bool checked;
