@@ -45,13 +45,30 @@ class _TodoListState extends State<TodoList> {
                     tasks[index].checked ? TextDecoration.lineThrough : null,
               ),
             ),
-            trailing: Checkbox(
-              value: tasks[index].checked,
-              onChanged: (bool? value) {
-                setState(() {
-                  tasks[index].checked = value ?? false;
-                });
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  value: tasks[index].checked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      tasks[index].checked = value ?? false;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    _editTask(context, index);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    _deleteTask(index);
+                  },
+                ),
+              ],
             ),
           );
         },
@@ -66,6 +83,7 @@ class _TodoListState extends State<TodoList> {
     );
   }
 
+//!aqui agrego mi tarea
   void _addTask(BuildContext context) {
     TextEditingController taskController = TextEditingController();
 
@@ -98,6 +116,49 @@ class _TodoListState extends State<TodoList> {
         );
       },
     );
+  }
+
+  //!aqui edito mi tarea
+  void _editTask(BuildContext context, int index) {
+    TextEditingController taskController =
+        TextEditingController(text: tasks[index].task);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Editar Tarea'),
+          content: TextField(
+            controller: taskController,
+            decoration: const InputDecoration(hintText: 'Editar la tarea'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  tasks[index].task = taskController.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Guardar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //!aqui elimino mi tarea
+  void _deleteTask(int index) {
+    setState(() {
+      tasks.removeAt(index);
+    });
   }
 }
 
